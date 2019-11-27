@@ -5,11 +5,11 @@ import socket
 def Request(method, info, sock):
     if 'GET' == method:
         header = Header('txt','utf-8')
-        message = 'GET\n' + 'Content-Type: ' + header.showType + '\n' + 'Content-Encoding: ' + header.showEncoding + '\n' + info
+        message = 'GET\n' + 'Content-Type: ' + header.showType() + '\n' + 'Content-Encoding: ' + header.showEncoding() + '\n' + info
         sock.send(message.encode('utf-8'))
         FILEINFO_SIZE = struct.calcsize('128sI')
         try:
-            fhead = sock.recv(1024)
+            #fhead = sock.recv(1024)
             fhead = sock.recv(FILEINFO_SIZE)
             filename , filesize = struct.unpack('128sI',fhead)
             #接收文件
@@ -32,3 +32,4 @@ def Request(method, info, sock):
         except Exception as e:
             print (e)
             print ('文件传输失败!')
+        return

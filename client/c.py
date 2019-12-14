@@ -1,41 +1,24 @@
 import socket
-import struct
-import operator
-import time
-import os
+from tkinter import *
 import sys
-sys.path.append("..")
-from Myprotocol.task.request import Request
+#sys.path.append("F:\\学习\\计算机网络\\txt_reader")
+sys.path.append('..')
+import os
+from client.component.login import LoginPage
+from client.glo import sock
 
-def download(sock):
-    filename = input('请输入要下载的文件名:\n')
-    Request('GET',filename,sock)
+def closeWindow():
+    root.destroy()
 
-def  handle(sock):
-    while True:
-        order = input()
-        if operator.eq(order,'1'):
-            sock.send(order.encode())
-            download(sock)
-        elif operator.eq(order,'2'):
-            sock.send(order.encode())
-            #upload(sock)
-        elif operator.eq(order,'3'):
-            print('正在关闭连接...')
-            time.sleep(0.5)
-            sock.send(order.encode())
-            break
-        else:
-            print('命令错误,请重新输入！')
-            continue
-        line = sock.recv(1024)
-        print(line.decode())
-
-if __name__ == '__main__':
-    #建立socket并连接8002端口
-    sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-    sock.connect(('127.0.0.1',8002))
-    line = sock.recv(1024)
-    print(line.decode())
-    handle(sock)
-    sock.close()
+global s
+s=1
+#建立socket并连接8002端口
+sock.connect(('127.0.0.1',8002))
+root = Tk()
+root.title('test')
+root.protocol('WM_DELETE_WINDOW', closeWindow)
+# 设置窗口的大小和位置
+# width x height + x_offset + y_offset
+LoginPage(root)
+root.mainloop()
+sock.close()

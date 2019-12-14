@@ -1,2 +1,4 @@
-message = 'GET\n' + 'Content-Type: ' + 'txt' + '\n'
-print(message)
+import sys
+#sys.path.append("..")
+from client.d import *
+print(s)

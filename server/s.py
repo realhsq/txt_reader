@@ -24,6 +24,7 @@ if __name__ == '__main__':
     sock.listen(100)
     while True:
         connect,address = sock.accept()
+        # 当获取一个新连接时，启动一个新线程来处理这个连接
         t = threading.Thread(target = handle,args = (connect,address))
         t.setDaemon(True)
         t.start()

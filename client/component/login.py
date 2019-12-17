@@ -7,7 +7,7 @@ import os
 from client.component.mainPage import MainPage
 from client.component.signUp import signUpPage
 from Myprotocol.task.request import Request
-from client.glo import sock
+from client.glo import *
 
 #登录界面
 class LoginPage(object): 
@@ -31,17 +31,23 @@ class LoginPage(object):
         Button(self.page, text='注册', command=self.signUp).grid(row=3, column=2, stick=E) 
   
     def loginCheck(self): 
-        name = self.username.get() 
+        name = self.username.get() + '.txt'
         secret = self.password.get()
-        Request('GET',name+'.txt+user',sock)
-        with open('new_'+name+'.txt') as f:
-            line = f.readline().strip('\n')
-        if secret == line: 
-            os.remove('new_'+name+'.txt')
+        Request('GET',name+'+user',sock)
+        line = ''
+        with open('new_'+name,encoding='utf-8') as f:
+            line = f.readline()
+            f.close()
+        with open(name, 'w', encoding='utf-8') as f1:
+            f1.write(line)
+            f1.close()
+        if secret == line.split(' ')[0]: 
+            set_value1(name)
+            os.remove('new_'+name)
             self.page.destroy() 
             MainPage(self.root) 
         else: 
-            os.remove('new_'+name+'.txt')
+            os.remove('new_'+name)
             showinfo(title='错误', message='账号或密码错误！')
     def signUp(self):
         self.page.destroy()

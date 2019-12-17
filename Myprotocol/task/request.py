@@ -19,22 +19,22 @@ def Request(method, info, sock):
                 fhead = sock.recv(FILEINFO_SIZE)
                 filename , filesize = struct.unpack('128sI',fhead)
                 #接收文件
-                if '+user' in info:
-                    with open ('new_'+filename.decode().strip('\00'),'wb') as f:
-                        ressize = filesize
-                        while True:
-                            if ressize>1024:
-                                filedata = sock.recv(1024)
-                            else:
-                                filedata = sock.recv(ressize)
-                                f.write(filedata)
-                                break
-                            if not filedata:
-                                break
+                #if '+user' in info:
+                with open ('new_'+filename.decode().strip('\00'),'wb') as f:
+                    ressize = filesize
+                    while True:
+                        if ressize>1024:
+                            filedata = sock.recv(1024)
+                        else:
+                            filedata = sock.recv(ressize)
                             f.write(filedata)
-                            ressize = ressize - len(filedata)
-                            if ressize <0:
-                                break
+                            break
+                        if not filedata:
+                            break
+                        f.write(filedata)
+                        ressize = ressize - len(filedata)
+                        if ressize <0:
+                            break
                 print ('文件传输成功!')
             except Exception as e:
                 print (e)

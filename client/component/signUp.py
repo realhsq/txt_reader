@@ -34,7 +34,7 @@ class signUpPage(object):
             showinfo(title='错误', message='账号或密码格式错误！')
         else:
             with open (name+'.txt','w') as f:
-                f.write((secret + '\n'))
+                f.write((secret))
             f.close()
             Request('POST',name + '.txt+user',sock)
             os.remove(name+'.txt')
